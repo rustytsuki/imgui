@@ -3301,6 +3301,8 @@ namespace ImGui
     // Widgets: Window Decorations
     IMGUI_API bool          CloseButton(ImGuiID id, const ImVec2& pos);
     IMGUI_API bool          CollapseButton(ImGuiID id, const ImVec2& pos);
+    IMGUI_API bool          ROffice_ExpandButton_(ImGuiID id, const ImVec2& pos);
+    IMGUI_API bool          ROffice_CollapseButton_(ImGuiID id, const ImVec2& pos);
     IMGUI_API void          Scrollbar(ImGuiAxis axis);
     IMGUI_API bool          ScrollbarEx(const ImRect& bb, ImGuiID id, ImGuiAxis axis, ImS64* p_scroll_v, ImS64 avail_v, ImS64 contents_v, ImDrawFlags flags);
     IMGUI_API ImRect        GetWindowScrollbarRect(ImGuiWindow* window, ImGuiAxis axis);
