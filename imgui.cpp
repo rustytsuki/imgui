@@ -6234,6 +6234,7 @@ void ImGui::RenderWindowTitleBarContents(ImGuiWindow* window, const ImRect& titl
 
     const bool has_close_button = (p_open != NULL);
     const bool has_collapse_button = !(flags & ImGuiWindowFlags_NoCollapse) && (style.WindowMenuButtonPosition != ImGuiDir_None);
+    const bool roffice_expandable = flags & ImGuiWindowFlags_ROfficeExpandable;
 
     // Close & Collapse button are on the Menu NavLayer and don't default focus (unless there's nothing else on that layer)
     // FIXME-NAV: Might want (or not?) to set the equivalent of ImGuiButtonFlags_NoNavFocus so that mouse clicks on standard title bar items don't necessarily set nav/keyboard ref?
@@ -6247,10 +6248,16 @@ void ImGui::RenderWindowTitleBarContents(ImGuiWindow* window, const ImRect& titl
     float pad_r = style.FramePadding.x;
     float button_sz = g.FontSize;
     ImVec2 close_button_pos;
+    ImVec2 roffice_expand_button_pos;
     ImVec2 collapse_button_pos;
     if (has_close_button)
     {
         close_button_pos = ImVec2(title_bar_rect.Max.x - pad_r - button_sz, title_bar_rect.Min.y + style.FramePadding.y);
+        pad_r += button_sz + style.ItemInnerSpacing.x;
+    }
+    if (roffice_expandable)
+    {
+        roffice_expand_button_pos = ImVec2(title_bar_rect.Max.x - pad_r - button_sz, title_bar_rect.Min.y + style.FramePadding.y);
         pad_r += button_sz + style.ItemInnerSpacing.x;
     }
     if (has_collapse_button && style.WindowMenuButtonPosition == ImGuiDir_Right)
@@ -6273,6 +6280,15 @@ void ImGui::RenderWindowTitleBarContents(ImGuiWindow* window, const ImRect& titl
     if (has_close_button)
         if (CloseButton(window->GetID("#CLOSE"), close_button_pos))
             *p_open = false;
+
+    // ROffice Expand
+    if (roffice_expandable)
+    {
+        if (ROffice_ExpandButton_(window->GetID("#ROFFICE_EXPAND"), roffice_expand_button_pos))
+        {
+            window->ROfficeWantExpandToggle = true;
+        }
+    }
 
     window->DC.NavLayerCurrent = ImGuiNavLayer_Main;
     g.CurrentItemFlags = item_flags_backup;
@@ -7564,6 +7580,15 @@ ImVec2 ImGui::GetWindowPos()
     ImGuiContext& g = *GImGui;
     ImGuiWindow* window = g.CurrentWindow;
     return window->Pos;
+}
+
+bool ImGui::TakeROfficeWantExpandToggle()
+{
+    ImGuiContext& g = *GImGui;
+    ImGuiWindow* window = g.CurrentWindow;
+    bool toggle = window->ROfficeWantExpandToggle;
+    window->ROfficeWantExpandToggle = false;
+    return toggle;
 }
 
 void ImGui::SetWindowPos(ImGuiWindow* window, const ImVec2& pos, ImGuiCond cond)
