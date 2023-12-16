@@ -910,7 +910,10 @@ bool ImGui::ROffice_ExpandButton_(ImGuiID id, const ImVec2& pos)
     float cross_extent = g.FontSize * 0.5f * 0.7071f - 1.0f;
     ImU32 cross_col = GetColorU32(ImGuiCol_Text);
     center -= ImVec2(0.5f, 0.5f);
-    window->DrawList->AddRect(center + ImVec2(-cross_extent, -cross_extent), center + ImVec2(+cross_extent, +cross_extent), cross_col, 1.0f);
+    window->DrawList->AddLine(center + ImVec2(-cross_extent, -cross_extent), center + ImVec2(+cross_extent, -cross_extent), cross_col, 1.0f);
+    window->DrawList->AddLine(center + ImVec2(+cross_extent, -cross_extent), center + ImVec2(+cross_extent, +cross_extent), cross_col, 1.0f);
+    window->DrawList->AddLine(center + ImVec2(+cross_extent, +cross_extent), center + ImVec2(-cross_extent, +cross_extent), cross_col, 1.0f);
+    window->DrawList->AddLine(center + ImVec2(-cross_extent, +cross_extent), center + ImVec2(-cross_extent, -cross_extent), cross_col, 1.0f);
 
     return pressed;
 }
@@ -949,7 +952,12 @@ bool ImGui::ROffice_CollapseButton_(ImGuiID id, const ImVec2& pos)
     float offset = g.FontSize * 0.17f;
     ImU32 cross_col = GetColorU32(ImGuiCol_Text);
     center -= ImVec2(0.5f, 0.5f);
-    window->DrawList->AddRect(center + ImVec2(-cross_extent, -cross_extent + offset), center + ImVec2(+cross_extent - offset, +cross_extent), cross_col, 1.0f);
+    
+    window->DrawList->AddLine(center + ImVec2(-cross_extent, -cross_extent + offset), center + ImVec2(+cross_extent - offset, -cross_extent + offset), cross_col, 1.0f);
+    window->DrawList->AddLine(center + ImVec2(+cross_extent - offset, -cross_extent + offset), center + ImVec2(+cross_extent - offset, +cross_extent), cross_col, 1.0f);
+    window->DrawList->AddLine(center + ImVec2(+cross_extent - offset, +cross_extent), center + ImVec2(-cross_extent, +cross_extent), cross_col, 1.0f);
+    window->DrawList->AddLine(center + ImVec2(-cross_extent, +cross_extent), center + ImVec2(-cross_extent, -cross_extent + offset), cross_col, 1.0f);
+
     window->DrawList->AddLine(center + ImVec2(-cross_extent + offset, -cross_extent), center + ImVec2(+cross_extent, -cross_extent), cross_col, 1.0f);
     window->DrawList->AddLine(center + ImVec2(+cross_extent, -cross_extent), center + ImVec2(+cross_extent, +cross_extent - offset), cross_col, 1.0f);
 
