@@ -4437,6 +4437,7 @@ bool ImGui::InputTextEx(const char* label, const char* hint, char* buf, int buf_
         state->Edited = false;
         state->BufCapacityA = buf_size;
         state->Flags = flags;
+        state->FrameBB = frame_bb;
 
         // Although we are active we don't prevent mouse from hovering other elements unless we are interacting right now with the widget.
         // Down the line we should have a cleaner library-wide concept of Selected vs Active.
